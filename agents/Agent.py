@@ -33,7 +33,6 @@ class Agent:
             response = llm_chain.run(question)
             self.cost_manager.add_cost(cb.total_cost)
             self.cost_manager.save()
-            print(response)
             response_ = FixJSON().fix(response)
             if not response_ == "":
                 try:
