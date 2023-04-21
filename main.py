@@ -1,3 +1,5 @@
+import os
+
 from agents.Agent import Agent
 from colorama import init, Fore, Style
 
@@ -20,6 +22,9 @@ if __name__ == "__main__":
     round_count = 0
     rerun_query = None
     next_query = None
+
+    if not os.path.exists(os.environ["AGENT_WORKSPACE"]):
+        os.mkdir(os.environ["AGENT_WORKSPACE"])
 
     while keep_going:
         if not rerun_query and not next_query:
