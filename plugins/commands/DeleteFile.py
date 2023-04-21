@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 import os
 
 
-class WriteFile(BasePlugin):
+class DeleteFile(BasePlugin):
     def __init__(self, plugin_manager: object):
         load_dotenv()
         self.command = "delete_file"
