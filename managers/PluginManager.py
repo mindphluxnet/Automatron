@@ -17,14 +17,18 @@ class PluginManager:
                 class_ = self._get_from_module(f"plugins.{plugin_type}.{plugin_file_name}", plugin_file_name)
                 if class_ is not None:
                     plugin_ = class_(self)
-                    command, description, arguments, returns, feed_back = plugin_.register()
+                    command, description, arguments, returns, feed_back, priority = plugin_.register()
                     self.plugins[command] = {"file_name": plugin_file_name,
                                              "module": f"plugins.{plugin_type}.{plugin_file_name}",
                                              "description": description, "arguments": arguments, "returns": returns,
-                                             "feed_back": feed_back}
+                                             "feed_back": feed_back, "priority": priority}
                     self.logger.info(f"plugins.{plugin_type}.{plugin_file_name} registered successfully")
                 else:
                     self.logger.warning(f"Invalid {plugin_type} plugin: {plugin_file_name}!")
+
+        # Sort plugins by priority with order highest > lowest.
+        self.plugins = dict(sorted(self.plugins.items(),
+                                   key=lambda x: x[1]['priority'] if x[1]['priority'] != -100 else float('inf')))
 
     def get_plugins(self):
         return self.plugins

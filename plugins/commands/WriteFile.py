@@ -11,10 +11,11 @@ class WriteFile(BasePlugin):
         self.arguments = {"file_name": "<file name>", "content": "<the text to write>"}
         self.returns = str
         self.feed_back = True
+        self.priority = 0
         self.plugin_manager = plugin_manager
 
     def register(self):
-        return self.command, self.description, self.arguments, self.returns, self.feed_back
+        return self.command, self.description, self.arguments, self.returns, self.feed_back, self.priority
 
     def run_plugin(self, arguments: dict[str, any]):
         self.plugin_manager.logger.info(f'Command {self.command} called with arguments: {arguments}')
