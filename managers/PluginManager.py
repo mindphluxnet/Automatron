@@ -22,7 +22,7 @@ class PluginManager:
                                              "module": f"plugins.{plugin_type}.{plugin_file_name}",
                                              "description": description, "arguments": arguments, "returns": returns,
                                              "feed_back": feed_back, "priority": priority}
-                    self.logger.info(f"plugins.{plugin_type}.{plugin_file_name} registered successfully")
+                    self.logger.info(f"registered plugins.{plugin_type}.{plugin_file_name}")
                 else:
                     self.logger.warning(f"Invalid {plugin_type} plugin: {plugin_file_name}!")
 
