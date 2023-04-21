@@ -1,0 +1,5 @@
+langchain
+python-dotenv
+wryte[color]
+colorama
+google-api-python-client
