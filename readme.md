@@ -6,7 +6,7 @@ I enjoyed their idea but not the implementation and I'm always eager to learn st
 
 You need a ***paid*** ChatGPT API key before you can even attempt to use this. 
 
-Clone the repository, rename ```.env-dist``` to ```.env``` and edit it to include your ChatGPT API key.
+Clone the repository, rename ```.env-dist``` to ```.env``` and edit it to include your ChatGPT API key. Also fill in any other API keys you might encounter (so far only for Google Custom Search Engine).
 
 Run with ```python main.py```
 
