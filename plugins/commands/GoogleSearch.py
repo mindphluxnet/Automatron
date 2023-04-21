@@ -3,6 +3,7 @@ from googleapiclient.discovery import build
 from dotenv import load_dotenv
 import os
 
+
 class GoogleSearch(BasePlugin):
     def __init__(self, plugin_manager: object):
         load_dotenv()
