@@ -2,6 +2,7 @@ from plugins.BasePlugin import BasePlugin
 from dotenv import load_dotenv
 import os
 
+
 class ReadFile(BasePlugin):
     def __init__(self, plugin_manager: object):
         load_dotenv()
