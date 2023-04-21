@@ -52,7 +52,6 @@ class PluginManager:
             return isinstance(response, self.plugins[command]["returns"])
 
     def do_feed_back(self, command: str):
-        print(command)
         return self.plugins[command]["feed_back"]
 
     @staticmethod
