@@ -9,6 +9,8 @@ class CostManager:
         self.session_cost = 0
         self.load()
         self.logger = Wryte("CostManager")
+        if not os.path.exists("etc"):
+            os.mkdir("etc")
 
     def clear_total_cost(self):
         self.total_cost = 0
