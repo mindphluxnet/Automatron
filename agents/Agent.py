@@ -30,7 +30,7 @@ class Agent:
         template = self.prompt_builder.build()
         prompt = PromptTemplate(template=template, input_variables=["question"])
 
-        if is_true(os.environ["VERBOSE"]):
+        if is_true(os.environ["AUTOMATRON_VERBOSE"]):
             print(prompt)
 
         llm = OpenAI()
@@ -40,7 +40,7 @@ class Agent:
             self.cost_manager.add_cost(cb.total_cost)
             self.cost_manager.save()
 
-            if is_true(os.environ["VERBOSE"]):
+            if is_true(os.environ["AUTOMATRON_VERBOSE"]):
                 from pprint import pprint
                 pprint(response)
 
