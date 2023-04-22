@@ -6,7 +6,6 @@ from googleapiclient.discovery import build
 class GoogleSearch(BasePlugin):
     def __init__(self, plugin_manager: object):
         self.plugin_manager = plugin_manager
-        # noinspection PyUnresolvedReferences
         self.config_manager = self.plugin_manager.agent.config_manager
         self.command = "google"
         self.description = "Google Search"
@@ -30,10 +29,13 @@ class GoogleSearch(BasePlugin):
                 for item in res["items"]:
                     search_results += f'{item["title"]} ({item["link"]}): {item["snippet"]}'
 
-                self.plugin_manager.logger.info(f'{len(res["items"])} Google search results'
-                                                f' will be fed back on the next query')
+                if self.config_manager.verbose:
+                    self.plugin_manager.logger.info(f'{len(res["items"])} Google search results'
+                                                    f' will be fed back on the next query')
 
                 return search_results
 
-        self.plugin_manager.logger.info("Google search returned no results.")
+        if self.config_manager.verbose:
+            self.plugin_manager.logger.info("Google search returned no results.")
+
         return f'There were no results from the Google search for {arguments["input"]}.'

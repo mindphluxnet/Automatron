@@ -1,11 +1,11 @@
 from plugins.BasePlugin import BasePlugin
-from dotenv import load_dotenv
 import os
 
 
 class ListFiles(BasePlugin):
     def __init__(self, plugin_manager: object):
-        load_dotenv()
+        self.plugin_manager = plugin_manager
+        self.config_manager = self.plugin_manager.agent.config_manager
         self.command = "list_files"
         self.description = "List the files in your workspace"
         self.arguments = {}
@@ -18,9 +18,10 @@ class ListFiles(BasePlugin):
         return self.command, self.description, self.arguments, self.returns, self.feed_back, self.priority
 
     def run_plugin(self, arguments: dict[str, any]):
-        # noinspection PyUnresolvedReferences
-        self.plugin_manager.logger.info(f'Command {self.command} called with arguments {arguments}')
-        files = os.listdir(self.plugin_manager.agent.config_manager.workspace_dir)
+        if self.config_manager.verbose:
+            self.plugin_manager.logger.info(f'Command {self.command} called with arguments {arguments}')
+
+        files = os.listdir(self.config_manager.workspace_dir)
 
         output = "These are the files in your workspace:\n\n"
         for file in files:
