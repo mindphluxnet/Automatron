@@ -17,4 +17,5 @@ def wait(seconds: int, reason: str) -> None:
 
 
 def is_true(value: str) -> bool:
+    # Needed because environment variables are strings.
     return value == "Yes" or value == "True"
