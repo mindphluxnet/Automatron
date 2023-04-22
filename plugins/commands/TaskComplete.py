@@ -15,5 +15,5 @@ class TaskComplete(BasePlugin):
         return self.command, self.description, self.arguments, self.returns, self.feed_back, self.priority
 
     def run_plugin(self, arguments: dict[str, any]):
-        self.plugin_manager.logger.info(f'Command {self.command} called, reason: {arguments["reason"]}')
+        # This is a virtual command. It's catched by the main loop and is never executed.
         exit()

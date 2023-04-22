@@ -3,6 +3,7 @@ import os
 from agents.Agent import Agent
 from colorama import init, Fore, Style
 from halo import Halo
+
 from utils.Utils import wait
 
 
@@ -23,6 +24,7 @@ if __name__ == "__main__":
     rerun_query = None
     next_query = None
 
+    # TODO: Use config manager
     if not os.path.exists(os.environ["AGENT_WORKSPACE"]):
         os.mkdir(os.environ["AGENT_WORKSPACE"])
 
@@ -36,8 +38,8 @@ if __name__ == "__main__":
             rerun_query = None
         elif next_query is not None:
             do_continue = input(f"[{Fore.YELLOW}${agent.cost_manager.get_session_cost():.2f}{Style.RESET_ALL}] "
-                                f"Agent wants to continue with the next query, press {Fore.CYAN}Enter{Style.RESET_ALL}"
-                                f" or ({Fore.CYAN}[q]{Style.RESET_ALL} to quit): ")
+                                f"Agent wants to proceed with the next query, press {Fore.CYAN}[Enter]{Style.RESET_ALL}"
+                                f" to continue or {Fore.CYAN}[q][Enter]{Style.RESET_ALL} to quit: ")
             if do_continue.lower() == "q":
                 exit()
             query = next_query
@@ -49,18 +51,23 @@ if __name__ == "__main__":
                 result, wait_time, wait_reason = agent.query(query)
 
             if result:
+                print(f'[{Fore.YELLOW}${agent.cost_manager.get_session_cost():.2f}{Style.RESET_ALL}] '
+                      f'{Fore.LIGHTGREEN_EX}Agent:{Style.RESET_ALL} {result[0]["thoughts"]["text"]}')
                 if "name" in result[0]["command"]:
-                    print(f'[{Fore.YELLOW}${agent.cost_manager.get_session_cost():.2f}{Style.RESET_ALL}] '
-                          f'{Fore.GREEN}Agent wants to execute command {Style.RESET_ALL}{Fore.CYAN}'
-                          f'{result[0]["command"]["name"]}{Style.RESET_ALL}{Fore.GREEN} with params {Style.RESET_ALL}'
-                          f'{Fore.YELLOW}{result[0]["command"]["args"]}{Style.RESET_ALL}')
-
                     command_to_run = result[0]["command"]["name"]
-                    result = run_command(command_to_run, result[0]["command"]["args"])
+                    if not command_to_run == "task_complete" and not command_to_run == "do_nothing":
+                        result = run_command(command_to_run, result[0]["command"]["args"])
 
-                    if result is not None:
-                        if agent.plugin_manager.do_feed_back(command_to_run):
-                            next_query = result
+                        if result is not None:
+                            if agent.plugin_manager.do_feed_back(command_to_run):
+                                next_query = result
+                    elif command_to_run == "task_complete":
+                        print(f"Agent wants to run command {command_to_run} which indicates it consideres the task "
+                              f"to be complete.")
+                        exit()
+                    elif command_to_run == "do_nothing":
+                        print(f"Agent wants to run command {command_to_run} which does nothing. "
+                              f"You can assume it's done with the task.")
 
                 else:
                     print(f'[{Fore.YELLOW}${agent.cost_manager.get_session_cost():.2f}{Style.RESET_ALL}] '

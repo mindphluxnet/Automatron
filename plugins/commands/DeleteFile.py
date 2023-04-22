@@ -18,6 +18,7 @@ class DeleteFile(BasePlugin):
         return self.command, self.description, self.arguments, self.returns, self.feed_back, self.priority
 
     def run_plugin(self, arguments: dict[str, any]):
+        # noinspection PyUnresolvedReferences
         self.plugin_manager.logger.info(f'Command {self.command} called with arguments: {arguments}')
         if os.path.isfile(os.path.join(os.environ["AGENT_WORKSPACE"], arguments["file_name"])):
             os.remove(os.path.join(os.environ["AGENT_WORKSPACE"], arguments["file_name"]))

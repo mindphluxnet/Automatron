@@ -17,6 +17,7 @@ class PromptBuilder:
         self.prompt_generator.add_constraint(
             "Use subprocesses for commands that will not terminate within a few minutes"
         )
+        self.prompt_generator.add_constraint("Do not use Google search if you already have the answer.")
 
         commands = []
         commands_ = self.agent.plugin_manager.get_plugins()
@@ -50,5 +51,5 @@ class PromptBuilder:
             " the least number of steps."
         )
 
-    def build(self):
+    def build(self) -> str:
         return self.prompt_generator.generate_prompt_string()

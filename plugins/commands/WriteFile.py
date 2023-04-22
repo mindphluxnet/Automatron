@@ -18,9 +18,10 @@ class WriteFile(BasePlugin):
         return self.command, self.description, self.arguments, self.returns, self.feed_back, self.priority
 
     def run_plugin(self, arguments: dict[str, any]):
-        self.plugin_manager.logger.info(f'Command {self.command} called with arguments: {arguments}')
-        if not os.path.isfile(os.path.join(os.environ["AGENT_WORKSPACE"], arguments["file_name"])):
-            with open(os.path.join(os.environ["AGENT_WORKSPACE"], arguments["file_name"]), "w") as f:
+        # noinspection PyUnresolvedReferences
+        self.plugin_manager.logger.info(f'Command {self.command} called with arguments {arguments}')
+        if not os.path.isfile(os.path.join(self.plugin_manager.agent.config_manager.workspace_dir, arguments["file_name"])):
+            with open(os.path.join(self.plugin_manager.agent.config_manager.workspace_dir, arguments["file_name"]), "w") as f:
                 f.write(arguments["content"])
                 return f'The file {arguments["file_name"]} has been written successfully.'
 

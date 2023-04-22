@@ -17,4 +17,4 @@ def wait(seconds: int, reason: str):
 
 
 def is_true(value: str):
-    return str == "True"
+    return value == "Yes"

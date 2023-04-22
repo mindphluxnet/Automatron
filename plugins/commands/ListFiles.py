@@ -18,8 +18,9 @@ class ListFiles(BasePlugin):
         return self.command, self.description, self.arguments, self.returns, self.feed_back, self.priority
 
     def run_plugin(self, arguments: dict[str, any]):
-        self.plugin_manager.logger.info(f'Command {self.command} called with arguments: {arguments}')
-        files = os.listdir(os.environ["AGENT_WORKSPACE"])
+        # noinspection PyUnresolvedReferences
+        self.plugin_manager.logger.info(f'Command {self.command} called with arguments {arguments}')
+        files = os.listdir(self.plugin_manager.agent.config_manager.workspace_dir)
 
         output = "These are the files in your workspace:\n\n"
         for file in files:
