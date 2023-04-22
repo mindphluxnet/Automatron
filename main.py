@@ -24,9 +24,8 @@ if __name__ == "__main__":
     rerun_query = None
     next_query = None
 
-    # TODO: Use config manager
-    if not os.path.exists(os.environ["AGENT_WORKSPACE"]):
-        os.mkdir(os.environ["AGENT_WORKSPACE"])
+    if not os.path.exists(agent.config_manager.workspace_dir):
+        os.mkdir(agent.config_manager.workspace_dir)
 
     while keep_going:
         if not rerun_query and not next_query:
