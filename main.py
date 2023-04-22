@@ -59,7 +59,7 @@ if __name__ == "__main__":
                         result = run_command(command_to_run, result[0]["command"]["args"])
 
                         if result is not None:
-                            if agent.plugin_manager.do_feed_back(command_to_run):
+                            if agent.plugin_manager.should_feed_back(command_to_run):
                                 next_query = result
                     elif command_to_run == "task_complete":
                         print(f"Agent wants to run command {command_to_run} which indicates it considers the task "
