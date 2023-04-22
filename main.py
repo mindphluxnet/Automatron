@@ -20,8 +20,8 @@ if __name__ == "__main__":
     agent = Agent()
     init()
     keep_going = True
-    rerun_query = None
-    next_query = None
+    rerun_query = None  # Set if an error occurred, this is the query to try again.
+    next_query = None  # Set if a command wants to feed back to ChatGPT.
 
     if not os.path.exists(agent.config_manager.workspace_dir):
         os.mkdir(agent.config_manager.workspace_dir)
@@ -41,6 +41,7 @@ if __name__ == "__main__":
             if do_continue.lower() == "q":
                 exit()
             query = next_query
+            next_query = None
         # noinspection PyUnboundLocalVariable
         if query == "q":
             exit(0)
