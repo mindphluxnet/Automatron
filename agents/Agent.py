@@ -1,3 +1,5 @@
+import os
+
 from langchain.callbacks import get_openai_callback
 
 from managers.CostManager import CostManager
@@ -9,6 +11,7 @@ from dotenv import load_dotenv
 import json
 from wryte import Wryte
 from utils.FixJSON import FixJSON
+from utils.Utils import is_true
 
 
 class Agent:
@@ -27,12 +30,20 @@ class Agent:
         template = self.prompt_builder.build()
         prompt = PromptTemplate(template=template, input_variables=["question"])
 
+        if is_true(os.environ["VERBOSE"]):
+            print(prompt)
+
         llm = OpenAI()
         llm_chain = LLMChain(prompt=prompt, llm=llm)
         with get_openai_callback() as cb:
             response = llm_chain.run(question)
             self.cost_manager.add_cost(cb.total_cost)
             self.cost_manager.save()
+
+            if is_true(os.environ["VERBOSE"]):
+                from pprint import pprint
+                pprint(response)
+
             response_ = FixJSON().fix(response)
             if not response_ == "":
                 try:

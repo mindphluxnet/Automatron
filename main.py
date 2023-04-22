@@ -3,7 +3,7 @@ import os
 from agents.Agent import Agent
 from colorama import init, Fore, Style
 from halo import Halo
-from utils.Wait import wait
+from utils.Utils import wait
 
 
 def run_command(command: str, arguments: dict[str, any]):

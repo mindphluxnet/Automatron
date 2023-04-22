@@ -16,4 +16,5 @@ def wait(seconds: int, reason: str):
         remaining_time -= 1
 
 
-
+def is_true(value: str):
+    return str == "True"
