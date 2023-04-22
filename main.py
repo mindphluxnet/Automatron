@@ -47,6 +47,9 @@ if __name__ == "__main__":
             exit(0)
         else:
             with Halo(text='AI is thinking ...', spinner='dots'):
+                # If an error occurs wait_time and wait_reason will be set. This causes the app to wait for
+                # wait_time seconds before retrying the query. This should only happen if the ChatGPT API is
+                # overloaded and returns empty responses.
                 result, wait_time, wait_reason = agent.query(query)
 
             if result:
@@ -60,6 +63,8 @@ if __name__ == "__main__":
                         if result is not None:
                             if agent.plugin_manager.should_feed_back(command_to_run):
                                 next_query = result
+                    # The commands task_complete and do_nothing are virtual. They exist as plugins but only for sorting
+                    # purposes so they are listed last in the command list. The actual plugin is never used.
                     elif command_to_run == "task_complete":
                         print(f"Agent wants to run command {command_to_run} which indicates it considers the task "
                               f"to be complete.")
