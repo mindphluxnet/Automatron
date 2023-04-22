@@ -20,7 +20,8 @@ class Agent:
         if not self.config_manager.verify_config():
             exit()
         else:
-            self.logger.info("Config loaded and verified")
+            if self.config_manager.verbose:
+                self.logger.info("Config loaded and verified")
 
         self.plugin_manager = PluginManager(self, "plugins")
         self.plugin_manager.enumerate_plugins()
@@ -44,6 +45,7 @@ class Agent:
             self.cost_manager.add_cost(cb.total_cost)
             self.cost_manager.save()
 
+            # Fix some common errors in JSON responses.
             response_ = FixJSON().fix(response)
             if not response_ == "":
                 try:
@@ -53,7 +55,9 @@ class Agent:
                         from pprint import pprint
                         pprint(json_)
 
-                    return json_, 0, ""
+                    # API is returning data, reset wait_time
+                    self.wait_time = 0
+                    return json_, self.wait_time, ""
                 except json.JSONDecodeError:
                     self.wait_time += 10
                     return False, self.wait_time, "Invalid JSON returned by ChatGPT"
