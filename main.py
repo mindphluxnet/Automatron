@@ -2,7 +2,7 @@ import os
 
 from agents.Agent import Agent
 from colorama import init, Fore, Style
-
+from halo import Halo
 from utils.Wait import wait
 
 
@@ -45,7 +45,9 @@ if __name__ == "__main__":
         if query == "q":
             exit(0)
         else:
-            result, wait_time, wait_reason = agent.query(query)
+            with Halo(text='AI is thinking ...', spinner='dots'):
+                result, wait_time, wait_reason = agent.query(query)
+
             if result:
                 if "name" in result[0]["command"]:
                     print(f'[{Fore.YELLOW}${agent.cost_manager.get_session_cost():.2f}{Style.RESET_ALL}] '

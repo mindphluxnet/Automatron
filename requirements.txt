@@ -1,5 +1,6 @@
-langchain
+langchain==0.0.146
 python-dotenv
 wryte[color]
 colorama
 google-api-python-client
+halo
