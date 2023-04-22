@@ -15,15 +15,17 @@ class ConfigManager:
 
     # noinspection PyUnresolvedReferences
     def verify_config(self) -> bool:
-        if self.openai_api_key is None:
+        # Verifies if all required API keys have been edited by the user.
+        if self.openai_api_key is None or self.openai_api_key == "<your OpenAI API key>":
             self.agent.logger.error("OPENAPI_API_KEY is not set in the .env file!")
             return False
 
-        if self.google_cse_developer_key is None:
+        if self.google_cse_developer_key is None or \
+                self.google_cse_developer_key == "<your Google Custom Search Engine developer key>":
             self.agent.logger.error("GOOGLE_CSE_API_KEY is not set in the .env file!")
             return False
 
-        if self.google_cse_cx is None:
+        if self.google_cse_cx is None or self.google_cse_cx == "<your Google Custom Search Engine ID (called cx)>":
             self.agent.logger.error("GOOGLE_CSE_CX is not set in the .env file!")
             return False
 
