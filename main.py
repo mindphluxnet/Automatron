@@ -25,22 +25,28 @@ if __name__ == "__main__":
     rerun_query = None  # Set if an error occurred, this is the query to try again.
     next_query = None  # Set if a command wants to feed back to ChatGPT.
 
+    # Automatron's file operations are restricted to the directory configured in the AGENT_WORKSPACE
+    # environment variable. If the directory doesn't exist it'll be created here.
     if not os.path.exists(agent.config_manager.workspace_dir):
         os.mkdir(agent.config_manager.workspace_dir)
 
     while keep_going:
         if not rerun_query and not next_query:
             query = input(f"[{Fore.YELLOW}${agent.cost_manager.get_session_cost():.2f}{Style.RESET_ALL}] "
-                          f"Enter your question ({Fore.CYAN}[q]{Style.RESET_ALL} to quit): ")
+                          f"Enter your question or enter {Fore.CYAN}quit{Style.RESET_ALL} to quit: ")
+            if query.lower() == "quit":
+                exit()
             query = query.strip()
         elif rerun_query is not None:
+            # If an error occurred, the previous query will be retried after a short wait time.
             query = rerun_query
             rerun_query = None
         elif next_query is not None:
+            # If ChatGPT decided to run a command we'll ask the user if that's okay.
             do_continue = input(f"[{Fore.YELLOW}${agent.cost_manager.get_session_cost():.2f}{Style.RESET_ALL}] "
                                 f"Agent wants to proceed with the next query, press {Fore.CYAN}[Enter]{Style.RESET_ALL}"
-                                f" to continue or {Fore.CYAN}[q][Enter]{Style.RESET_ALL} to quit: ")
-            if do_continue.lower() == "q":
+                                f" to continue or enter {Fore.CYAN}quit{Style.RESET_ALL} to quit: ")
+            if do_continue.lower() == "quit":
                 exit()
             query = next_query
             next_query = None
