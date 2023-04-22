@@ -20,7 +20,6 @@ if __name__ == "__main__":
     agent = Agent()
     init()
     keep_going = True
-    round_count = 0
     rerun_query = None
     next_query = None
 
