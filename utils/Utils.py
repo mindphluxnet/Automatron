@@ -2,7 +2,7 @@ import time
 from colorama import Style, Fore
 
 
-def wait(seconds: int, reason: str):
+def wait(seconds: int, reason: str) -> None:
     remaining_time = seconds
     while remaining_time > 0:
         if remaining_time == 1:
@@ -16,5 +16,5 @@ def wait(seconds: int, reason: str):
         remaining_time -= 1
 
 
-def is_true(value: str):
-    return value == "Yes"
+def is_true(value: str) -> bool:
+    return value == "Yes" or value == "True"

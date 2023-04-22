@@ -15,11 +15,10 @@ class GoogleSearch(BasePlugin):
         self.feed_back = True
         self.priority = 0
 
-    def register(self):
+    def register(self) -> tuple:
         return self.command, self.description, self.arguments, self.returns, self.feed_back, self.priority
 
-    def run_plugin(self, arguments: dict[str, any]):
-        # noinspection PyUnresolvedReferences
+    def run_plugin(self, arguments: dict[str, any]) -> str:
         self.plugin_manager.logger.info(f'Command {self.command} called with arguments {arguments}')
         res = (self.service.cse().list(q=arguments["input"], num=5, cx=self.config_manager.google_cse_cx).execute())
         if res:
@@ -27,7 +26,7 @@ class GoogleSearch(BasePlugin):
                 search_results = f'The result of the Google search for {arguments["input"]} are as follows:\n\n'
 
                 for item in res["items"]:
-                    search_results += f'{item["title"]} ({item["link"]}): {item["snippet"]}'
+                    search_results += f'{item["title"]} ({item["link"]}): {item["snippet"]}\n'
 
                 if self.config_manager.verbose:
                     self.plugin_manager.logger.info(f'{len(res["items"])} Google search results'

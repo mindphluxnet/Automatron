@@ -11,9 +11,9 @@ class DoNothing(BasePlugin):
         self.priority = -100
         self.plugin_manager = plugin_manager
 
-    def register(self):
+    def register(self) -> tuple:
         return self.command, self.description, self.arguments, self.returns, self.feed_back, self.priority
 
-    def run_plugin(self, arguments: dict[str, any]):
+    def run_plugin(self, arguments: dict[str, any]) -> None:
         # This is a virtual command. It's catched by the main loop and is never executed.
         return None

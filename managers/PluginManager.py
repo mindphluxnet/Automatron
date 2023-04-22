@@ -10,7 +10,7 @@ class PluginManager:
         self.plugins = {}
         self.logger = Wryte(name="PluginManager")
 
-    def enumerate_plugins(self, plugin_type: str = "commands"):
+    def enumerate_plugins(self, plugin_type: str = "commands") -> None:
         for plugin in os.listdir(os.path.join(self.plugin_dir, plugin_type)):
             if plugin.endswith('.py'):
                 plugin_file_name = plugin[:-3]
@@ -30,7 +30,7 @@ class PluginManager:
         self.plugins = dict(sorted(self.plugins.items(),
                                    key=lambda x: x[1]['priority'] if x[1]['priority'] != -100 else float('inf')))
 
-    def get_plugins(self):
+    def get_plugins(self) -> dict:
         return self.plugins
 
     def run_plugin(self, command: str, arguments: dict[any]):
@@ -45,13 +45,13 @@ class PluginManager:
             self.logger.error(f'Plugin {self.plugins["command"]["module"]} could not be run')
             return None
 
-    def is_valid_response(self, command: str, response: any):
+    def is_valid_response(self, command: str, response: any) -> bool:
         if self.plugins[command]["returns"] is None and response is None:
             return True
         else:
             return isinstance(response, self.plugins[command]["returns"])
 
-    def should_feed_back(self, command: str):
+    def should_feed_back(self, command: str) -> bool:
         return self.plugins[command]["feed_back"]
 
     @staticmethod

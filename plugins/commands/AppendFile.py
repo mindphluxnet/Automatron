@@ -13,10 +13,10 @@ class AppendFile(BasePlugin):
         self.feed_back = True
         self.priority = 0
 
-    def register(self):
+    def register(self) -> tuple:
         return self.command, self.description, self.arguments, self.returns, self.feed_back, self.priority
 
-    def run_plugin(self, arguments: dict[str, any]):
+    def run_plugin(self, arguments: dict[str, any]) -> str:
         if self.config_manager.verbose:
             self.plugin_manager.logger.info(f'Command {self.command} called with arguments {arguments}')
 
