@@ -30,7 +30,7 @@ class WikipediaSearch(BasePlugin):
             return "Wikipedia search failed: invalid JSON response. Please try again."
 
         if data:
-            results = "Wikipedia search results:\n\n"
+            results = f'Wikipedia search results for "{arguments["input"]}":\n\n'
             for result in data["query"]["search"]:
                 title = result["title"]
                 snippet = result["snippet"]

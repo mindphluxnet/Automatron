@@ -23,7 +23,7 @@ class GoogleSearch(BasePlugin):
         res = (self.service.cse().list(q=arguments["input"], num=5, cx=self.config_manager.google_cse_cx).execute())
         if res:
             if "items" in res:
-                search_results = f'The result of the Google search for {arguments["input"]} are as follows:\n\n'
+                search_results = f'The result of the Google search for "{arguments["input"]}" are as follows:\n\n'
 
                 for item in res["items"]:
                     search_results += f'{item["title"]} ({item["link"]}): {item["snippet"]}\n'
