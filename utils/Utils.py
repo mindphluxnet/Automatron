@@ -20,7 +20,3 @@ class Utils:
             time.sleep(1)
             remaining_time -= 1
 
-    @staticmethod
-    def is_true(value: str) -> bool:
-        # Needed because environment variables are strings.
-        return value == "Yes" or value == "True"
