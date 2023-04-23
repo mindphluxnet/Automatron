@@ -8,7 +8,7 @@ class TaskComplete(BasePlugin):
         self.arguments = {"reason": "<reason>"}
         self.returns = None
         self.feed_back = False
-        self.priority = -100
+        self.priority = 100
         self.plugin_manager = plugin_manager
 
     def register(self) -> tuple:

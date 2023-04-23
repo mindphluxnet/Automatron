@@ -10,14 +10,14 @@ class PromptBuilder:
             "~4000 word limit for short term memory. Your short term memory is short, so"
             " immediately save important information to files."
         )
+        self.prompt_generator.add_constraint(
+            "If you are unsure how you previously did something or want to recall past events, thinking about similar"
+            " events will help you remember."
+        )
         self.prompt_generator.add_constraint("No user assistance")
         self.prompt_generator.add_constraint(
             'Exclusively use the commands listed in double quotes e.g. "command name"'
         )
-        self.prompt_generator.add_constraint(
-            "Use subprocesses for commands that will not terminate within a few minutes"
-        )
-        self.prompt_generator.add_constraint("Do not use Google search if you already have the answer.")
 
         commands = []
         commands_ = self.agent.plugin_manager.get_plugins()
@@ -50,6 +50,7 @@ class PromptBuilder:
             "Every command has a cost, so be smart and efficient. Aim to complete tasks in"
             " the least number of steps."
         )
+        self.prompt_generator.add_performance_evaluation("Write all code to a file.")
 
     def build(self) -> str:
         return self.prompt_generator.generate_prompt_string()

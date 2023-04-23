@@ -34,7 +34,8 @@ class Agent:
         prompt = PromptTemplate(template=template, input_variables=["question"])
 
         if self.config_manager.verbose:
-            print(prompt)
+            from pprint import pprint
+            pprint(prompt.format(question=question))
 
         llm = OpenAI()
         llm.openai_api_key = self.config_manager.openai_api_key
