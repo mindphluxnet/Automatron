@@ -32,7 +32,7 @@ class PluginManager:
 
         # Sort plugins by priority with order highest > lowest.
         self.plugins = dict(sorted(self.plugins.items(),
-                                   key=lambda x: x[1]['priority'] if x[1]['priority'] != -100 else float('inf')))
+                                   key=lambda x: x[1]['priority'] if x[1]['priority'] != 0 else float('inf')))
 
     def get_plugins(self) -> dict:
         return self.plugins
