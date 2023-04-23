@@ -4,7 +4,7 @@ from agents.Agent import Agent
 from colorama import init, Fore, Style
 from halo import Halo
 
-from utils.Utils import wait
+from utils.Utils import Utils
 
 
 def run_command(command: str, arguments: dict[str, any]):
@@ -21,6 +21,7 @@ if __name__ == "__main__":
     print(f"{Fore.LIGHTYELLOW_EX}Automatron{Style.RESET_ALL}, an experimental ChatGPT automation - Copyright"
           f" 2023 Richard Kämmerer")
     agent = Agent()
+    utils = Utils(agent)
     keep_going = True
     rerun_query = None  # Set if an error occurred, this is the query to try again.
     next_query = None  # Set if a command wants to feed back to ChatGPT.
@@ -88,5 +89,5 @@ if __name__ == "__main__":
                               f'{Fore.GREEN}Agent response:{Style.RESET_ALL} {result[0]["thoughts"]["text"]}')
                 else:
                     if wait_time > 0:
-                        wait(wait_time, wait_reason)
+                        Utils.wait(utils, wait_time, wait_reason)
                         rerun_query = query
