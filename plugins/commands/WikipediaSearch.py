@@ -16,6 +16,7 @@ class WikipediaSearch(BasePlugin):
     def register(self) -> tuple:
         return self.command, self.description, self.arguments, self.returns, self.feed_back, self.priority
 
+    # noinspection PyUnresolvedReferences
     def run_plugin(self, arguments: dict[str, any]) -> str:
         session = requests.Session()
         # Custom User-Agent header as required by Wikimedia (https://meta.wikimedia.org/wiki/User-Agent_policy)

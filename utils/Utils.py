@@ -1,11 +1,13 @@
 import time
 from colorama import Style, Fore
+import subprocess
 
 
 class Utils:
     def __init__(self, agent: object):
         self.agent = agent
 
+    # noinspection PyUnresolvedReferences
     def wait(self, seconds: int, reason: str) -> None:
         remaining_time = seconds
         while remaining_time > 0:
@@ -20,3 +22,13 @@ class Utils:
             time.sleep(1)
             remaining_time -= 1
 
+    @staticmethod
+    def is_git_installed() -> bool:
+        try:
+            result = subprocess.check_output(["git", "--version"]).decode("utf-8")
+            if "git version" in result:
+                return True
+        except subprocess.CalledProcessError:
+            pass
+
+        return False

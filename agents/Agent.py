@@ -9,6 +9,7 @@ from managers.ConfigManager import ConfigManager
 from managers.CostManager import CostManager
 from managers.PluginManager import PluginManager
 from prompts.PromptBuilder import PromptBuilder
+from utils.ErrorCodes import ErrorCodes
 from utils.FixJSON import FixJSON
 
 
@@ -18,7 +19,7 @@ class Agent:
         self.config_manager = ConfigManager(self)
 
         if not self.config_manager.verify_config():
-            exit()
+            exit(ErrorCodes.ERROR_INVALID_CONFIG)
         else:
             if self.config_manager.verbose:
                 self.logger.info("Config loaded and verified")

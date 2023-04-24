@@ -4,6 +4,7 @@ from googleapiclient.discovery import build
 
 
 class GoogleSearch(BasePlugin):
+    # noinspection PyUnresolvedReferences
     def __init__(self, plugin_manager: object):
         self.plugin_manager = plugin_manager
         self.config_manager = self.plugin_manager.agent.config_manager
@@ -18,6 +19,7 @@ class GoogleSearch(BasePlugin):
     def register(self) -> tuple:
         return self.command, self.description, self.arguments, self.returns, self.feed_back, self.priority
 
+    # noinspection PyUnresolvedReferences
     def run_plugin(self, arguments: dict[str, any]) -> str:
         self.plugin_manager.logger.info(f'Command {self.command} called with arguments {arguments}')
         res = (self.service.cse().list(q=arguments["input"], num=5, cx=self.config_manager.google_cse_cx).execute())

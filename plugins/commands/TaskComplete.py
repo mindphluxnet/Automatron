@@ -16,4 +16,4 @@ class TaskComplete(BasePlugin):
 
     def run_plugin(self, arguments: dict[str, any]) -> None:
         # This is a virtual command. It's catched by the main loop and is never executed.
-        exit()
+        return None

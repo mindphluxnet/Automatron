@@ -5,6 +5,8 @@ from colorama import init, Fore, Style
 from halo import Halo
 
 from utils.Utils import Utils
+from utils.ErrorCodes import ErrorCodes
+from wryte import Wryte
 
 
 def run_command(command: str, arguments: dict[str, any]):
@@ -22,6 +24,13 @@ if __name__ == "__main__":
           f" 2023 Richard Kämmerer")
     agent = Agent()
     utils = Utils(agent)
+    logger = Wryte("main")
+
+    if not utils.is_git_installed():
+        logger.error("Git command line utility must be installed to use this application. "
+                     "Please download and install from https://git-scm.com/downloads")
+        exit(ErrorCodes.ERROR_GIT_MISSING)
+
     keep_going = True
     rerun_query = None  # Set if an error occurred, this is the query to try again.
     next_query = None  # Set if a command wants to feed back to ChatGPT.
@@ -36,7 +45,7 @@ if __name__ == "__main__":
             query = input(f"[{Fore.YELLOW}${agent.cost_manager.get_session_cost():.2f}{Style.RESET_ALL}] "
                           f"Enter your question or enter {Fore.CYAN}quit{Style.RESET_ALL} to quit: ")
             if query.lower() == "quit":
-                exit()
+                exit(ErrorCodes.ERROR_ABORTED_BY_USER)
             query = query.strip()
         elif rerun_query is not None:
             # If an error occurred, the previous query will be retried after a short wait time.
@@ -48,12 +57,12 @@ if __name__ == "__main__":
                                 f"Agent wants to proceed with the next query, press {Fore.CYAN}[Enter]{Style.RESET_ALL}"
                                 f" to continue or enter {Fore.CYAN}quit{Style.RESET_ALL} to quit: ")
             if do_continue.lower() == "quit":
-                exit()
+                exit(ErrorCodes.ERROR_ABORTED_BY_USER)
             query = next_query
             next_query = None
         # noinspection PyUnboundLocalVariable
-        if query == "q":
-            exit(0)
+        if query == "quit":
+            exit(ErrorCodes.ERROR_ABORTED_BY_USER)
         else:
             if query != "":
                 with Halo(text='AI is thinking ...', spinner='dots'):
@@ -79,7 +88,7 @@ if __name__ == "__main__":
                         elif command_to_run == "task_complete":
                             print(f"Agent wants to run command {command_to_run} which indicates it considers the task "
                                   f"to be complete.")
-                            exit()
+                            exit(ErrorCodes.ERROR_NONE)
                         elif command_to_run == "do_nothing":
                             print(f"Agent wants to run command {command_to_run} which does nothing. "
                                   f"You can assume it's done with the task.")
