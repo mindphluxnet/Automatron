@@ -24,7 +24,7 @@ class GitClone(BasePlugin):
         self.plugin_manager.logger.info(f'Command {self.command} called with arguments {arguments}')
         github_link = arguments["input"]
         parsed_link = urlparse(github_link)
-        if parsed_link.hostname.lower() is not "github":
+        if parsed_link.hostname.lower() != "github":
             return f'Invalid Github link: {github_link}'
 
         repo_name = parsed_link.path.split("/")[2]
