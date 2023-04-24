@@ -1,12 +1,13 @@
 import os
 
 from dotenv import load_dotenv
+from wryte import Wryte
 
 
 class ConfigManager:
-    def __init__(self, agent: object):
+    def __init__(self):
         load_dotenv()
-        self.agent = agent
+        self.logger = Wryte("ConfigManager")
         self.openai_api_key = os.environ.get("OPENAI_API_KEY")
         self.verbose = os.environ.get("AUTOMATRON_VERBOSE") == "Yes"
         self.workspace_dir = os.environ.get("AGENT_WORKSPACE") or "workspace"
@@ -17,16 +18,16 @@ class ConfigManager:
     def verify_config(self) -> bool:
         # Verifies if all required API keys have been edited by the user.
         if self.openai_api_key is None or self.openai_api_key == "<your OpenAI API key>":
-            self.agent.logger.error("OPENAPI_API_KEY is not set in the .env file!")
+            self.logger.error("OPENAPI_API_KEY is not set in the .env file!")
             return False
 
         if self.google_cse_developer_key is None or \
                 self.google_cse_developer_key == "<your Google Custom Search Engine developer key>":
-            self.agent.logger.error("GOOGLE_CSE_API_KEY is not set in the .env file!")
+            self.logger.error("GOOGLE_CSE_API_KEY is not set in the .env file!")
             return False
 
         if self.google_cse_cx is None or self.google_cse_cx == "<your Google Custom Search Engine ID (called cx)>":
-            self.agent.logger.error("GOOGLE_CSE_CX is not set in the .env file!")
+            self.logger.error("GOOGLE_CSE_CX is not set in the .env file!")
             return False
 
         return True

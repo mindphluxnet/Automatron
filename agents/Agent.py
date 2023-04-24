@@ -16,7 +16,7 @@ from utils.FixJSON import FixJSON
 class Agent:
     def __init__(self):
         self.logger = Wryte("Agent")
-        self.config_manager = ConfigManager(self)
+        self.config_manager = ConfigManager()
 
         if not self.config_manager.verify_config():
             exit(ErrorCodes.ERROR_INVALID_CONFIG)
